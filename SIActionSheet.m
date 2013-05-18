@@ -30,6 +30,7 @@
 @synthesize elements, tableview, titleLabel;
 @synthesize cancelBlock, completeBlock, parentview, cancelButton, scroll;
 @synthesize popCtrl, blackout;
+@synthesize contentSize;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -56,7 +57,9 @@
 }
 
 -(IBAction)close:(id)sender {
-    cancelBlock();
+    if (cancelBlock) {
+        cancelBlock();
+    }
     [self closeAnimated];
 }
 
@@ -82,17 +85,34 @@
     if (pos > self.elements.count) return [self.elements objectAtIndex:pos]; else return nil;
 }
 
+-(CGSize)contentSize {
+    CGRect myFrame;
+    if (self.parentview) {
+        myFrame = self.parentview.frame;
+    } else {
+        myFrame = CGRectMake(0, 0, 320, 480);
+    }
+    float height = myFrame.size.height;
+    if ((self.elements.count * 70) + 10 + 56 + 54 + 30 < myFrame.size.height) {
+        height = (self.elements.count * 70) + 10 + 56 + 54 + 30;
+    }
+    return CGSizeMake(myFrame.size.width, height);
+}
+
 -(void)showinView:(UIView *)view {
     if (!self.parentview) {
-         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-        CGRect myFrame = [view convertRect:view.frame fromView:nil];
-        if (!self.popCtrl) self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);
-        [view addSubview:self.view];
         self.parentview = view;
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+        
+        CGRect myFrame = [view convertRect:view.frame fromView:nil];
+        CGRect parentFrame = myFrame;
+        myFrame.size = self.contentSize;
+        if (!self.popCtrl) self.view.frame = CGRectMake(0, parentFrame.size.height, myFrame.size.width, myFrame.size.height);
+        [view addSubview:self.view];
         [self retain];
         double dur = 0.5;
         if (self.popCtrl) dur = 0;
-        [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, 0, myFrame.size.width, myFrame.size.height);}];
+        [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, parentFrame.size.height - myFrame.size.height, myFrame.size.width, myFrame.size.height);}];
     } else {
         NSLog(@"can't show twice!");
     }
@@ -108,8 +128,8 @@
     [UIView animateWithDuration:0.5 animations:^{blackout.alpha = 0.8;}];
     UIViewController* basicView = [[UIViewController alloc] init];
     basicView.modalInPopover = YES;
-    basicView.contentSizeForViewInPopover = CGSizeMake(320, 480);
-    basicView.view.frame = CGRectMake(0, 0, 320, 480);
+    basicView.contentSizeForViewInPopover = self.contentSize;
+    basicView.view.frame = CGRectMake(0, 0, self.contentSize.width, self.contentSize.height);
     popCtrl = [[UIPopoverController alloc] initWithContentViewController:basicView];
     CGRect myFrame = CGRectMake(point.x, point.y, 1, 1);
     [self showinView:basicView.view];
@@ -152,8 +172,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"selected %i", indexPath.row);
-    ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).action();
-    self.completeBlock(indexPath.row);
+    if (((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).action)     ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).action();
+    if (completeBlock) self.completeBlock(indexPath.row);
     [self closeAnimated];
 }
 
@@ -169,6 +189,12 @@
 -(void)tableView:(UITableView *)tableView willDisplayCell:(SIActionCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).title;
     cell.imageView.image = ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).image;
+    if (cell.imageView.image == nil) {
+        cell.textLabel.frame = CGRectMake(cell.imageView.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width + cell.textLabel.frame.origin.x - cell.imageView.frame.origin.x, cell.textLabel.frame.size.height);
+    }
+    if (cell.textLabel.text == nil) {
+        cell.imageView.frame = CGRectMake(cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, cell.textLabel.frame.size.width + cell.textLabel.frame.origin.x - cell.imageView.frame.origin.x, cell.imageView.frame.size.height);
+    }
 }
 
 @end

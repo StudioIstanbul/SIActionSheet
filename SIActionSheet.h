@@ -10,6 +10,7 @@
 #import "SIActionElement.h"
 
 @interface SIActionSheet : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (readonly) CGSize contentSize;
 
 +(SIActionSheet*)actionSheetWithTitle:(NSString*)title andObjects:(NSArray*)objects completition:(void (^)(int numberPressed))completeBlock cancel:(void (^)(void))cancelBlock;
 -(SIActionElement*)actionAtIndex:(NSInteger)pos;
