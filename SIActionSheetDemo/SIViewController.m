@@ -7,6 +7,7 @@
 //
 
 #import "SIViewController.h"
+#import "SIActionSheet.h"
 
 @interface SIViewController ()
 
@@ -24,6 +25,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)openSheet:(id)sender {
+    NSArray* actions = [NSArray arrayWithObjects:[SIActionElement actionWithTitle:@"Action 1" image:[UIImage imageNamed:@"studio-istanbul"] andAction:^{NSLog(@"action 1");}], nil];
+    SIActionSheet* actionSheet = [SIActionSheet actionSheetWithTitle:@"test sheet" andObjects:actions completition:^(int num){NSLog(@"complete with num %i", num);} cancel:^{NSLog(@"canceled");}];
+    //[actionSheet showinView:self.view];
+    [actionSheet show];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  SIViewController.h
+//  SIActionSheetView.h
 //  SIActionSheetDemo
 //
 //  Created by Programmierer on 18/5/2013.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SIViewController : UIViewController
--(IBAction)openSheet:(id)sender;
+@interface SIActionSheetView : UIView
+
 @end

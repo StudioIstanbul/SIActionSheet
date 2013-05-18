@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03ED57061747E8010081BEBE /* grey_wash_wall.png in Resources */ = {isa = PBXBuildFile; fileRef = 03ED57051747E8010081BEBE /* grey_wash_wall.png */; };
 		03FEB1B61747AACE00B6339D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FEB1B51747AACE00B6339D /* UIKit.framework */; };
 		03FEB1B81747AACE00B6339D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FEB1B71747AACE00B6339D /* Foundation.framework */; };
 		03FEB1BA1747AACE00B6339D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FEB1B91747AACE00B6339D /* CoreGraphics.framework */; };
@@ -19,9 +20,19 @@
 		03FEB1CF1747AACE00B6339D /* SIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1CE1747AACE00B6339D /* SIViewController.m */; };
 		03FEB1D21747AACE00B6339D /* SIViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03FEB1D01747AACE00B6339D /* SIViewController_iPhone.xib */; };
 		03FEB1D51747AACE00B6339D /* SIViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03FEB1D31747AACE00B6339D /* SIViewController_iPad.xib */; };
+		03FEB1DF1747AB4F00B6339D /* SIActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1DD1747AB4F00B6339D /* SIActionSheet.m */; };
+		03FEB1E01747AB4F00B6339D /* SIActionSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03FEB1DE1747AB4F00B6339D /* SIActionSheet.xib */; };
+		03FEB1E31747B50600B6339D /* SIActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1E21747B50600B6339D /* SIActionSheetView.m */; };
+		03FEB1E61747BBC200B6339D /* SIActionSheetBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1E51747BBC200B6339D /* SIActionSheetBackground.m */; };
+		03FEB1EA1747BFC500B6339D /* SICancelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1E91747BFC500B6339D /* SICancelButton.m */; };
+		03FEB1ED1747D19E00B6339D /* SIActionElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1EC1747D19E00B6339D /* SIActionElement.m */; };
+		03FEB1EF1747D4C800B6339D /* SIActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03FEB1EE1747D4C800B6339D /* SIActionCell.xib */; };
+		03FEB1F21747D4FF00B6339D /* SIActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FEB1F11747D4FF00B6339D /* SIActionCell.m */; };
+		03FEB1F41747D93500B6339D /* studio-istanbul.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FEB1F31747D93500B6339D /* studio-istanbul.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03ED57051747E8010081BEBE /* grey_wash_wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grey_wash_wall.png; sourceTree = "<group>"; };
 		03FEB1B21747AACE00B6339D /* SIActionSheetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIActionSheetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03FEB1B51747AACE00B6339D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		03FEB1B71747AACE00B6339D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -39,6 +50,21 @@
 		03FEB1CE1747AACE00B6339D /* SIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIViewController.m; sourceTree = "<group>"; };
 		03FEB1D11747AACE00B6339D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SIViewController_iPhone.xib; sourceTree = "<group>"; };
 		03FEB1D41747AACE00B6339D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SIViewController_iPad.xib; sourceTree = "<group>"; };
+		03FEB1DC1747AB4F00B6339D /* SIActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIActionSheet.h; sourceTree = "<group>"; };
+		03FEB1DD1747AB4F00B6339D /* SIActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIActionSheet.m; sourceTree = "<group>"; };
+		03FEB1DE1747AB4F00B6339D /* SIActionSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SIActionSheet.xib; sourceTree = "<group>"; };
+		03FEB1E11747B50600B6339D /* SIActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIActionSheetView.h; sourceTree = "<group>"; };
+		03FEB1E21747B50600B6339D /* SIActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIActionSheetView.m; sourceTree = "<group>"; };
+		03FEB1E41747BBC200B6339D /* SIActionSheetBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIActionSheetBackground.h; sourceTree = "<group>"; };
+		03FEB1E51747BBC200B6339D /* SIActionSheetBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIActionSheetBackground.m; sourceTree = "<group>"; };
+		03FEB1E81747BFC500B6339D /* SICancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SICancelButton.h; sourceTree = "<group>"; };
+		03FEB1E91747BFC500B6339D /* SICancelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SICancelButton.m; sourceTree = "<group>"; };
+		03FEB1EB1747D19E00B6339D /* SIActionElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIActionElement.h; sourceTree = "<group>"; };
+		03FEB1EC1747D19E00B6339D /* SIActionElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIActionElement.m; sourceTree = "<group>"; };
+		03FEB1EE1747D4C800B6339D /* SIActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SIActionCell.xib; sourceTree = "<group>"; };
+		03FEB1F01747D4FF00B6339D /* SIActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIActionCell.h; sourceTree = "<group>"; };
+		03FEB1F11747D4FF00B6339D /* SIActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIActionCell.m; sourceTree = "<group>"; };
+		03FEB1F31747D93500B6339D /* studio-istanbul.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "studio-istanbul.png"; path = "../../../Desktop/studio-istanbul.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +84,7 @@
 		03FEB1A91747AACE00B6339D = {
 			isa = PBXGroup;
 			children = (
+				03FEB1DB1747AAE500B6339D /* SIActionSheet */,
 				03FEB1BB1747AACE00B6339D /* SIActionSheetDemo */,
 				03FEB1B41747AACE00B6339D /* Frameworks */,
 				03FEB1B31747AACE00B6339D /* Products */,
@@ -99,6 +126,8 @@
 		03FEB1BC1747AACE00B6339D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03ED57051747E8010081BEBE /* grey_wash_wall.png */,
+				03FEB1F31747D93500B6339D /* studio-istanbul.png */,
 				03FEB1BD1747AACE00B6339D /* SIActionSheetDemo-Info.plist */,
 				03FEB1BE1747AACE00B6339D /* InfoPlist.strings */,
 				03FEB1C11747AACE00B6339D /* main.m */,
@@ -108,6 +137,27 @@
 				03FEB1CB1747AACE00B6339D /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		03FEB1DB1747AAE500B6339D /* SIActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				03FEB1DC1747AB4F00B6339D /* SIActionSheet.h */,
+				03FEB1DD1747AB4F00B6339D /* SIActionSheet.m */,
+				03FEB1EE1747D4C800B6339D /* SIActionCell.xib */,
+				03FEB1F01747D4FF00B6339D /* SIActionCell.h */,
+				03FEB1F11747D4FF00B6339D /* SIActionCell.m */,
+				03FEB1EB1747D19E00B6339D /* SIActionElement.h */,
+				03FEB1EC1747D19E00B6339D /* SIActionElement.m */,
+				03FEB1E41747BBC200B6339D /* SIActionSheetBackground.h */,
+				03FEB1E51747BBC200B6339D /* SIActionSheetBackground.m */,
+				03FEB1DE1747AB4F00B6339D /* SIActionSheet.xib */,
+				03FEB1E81747BFC500B6339D /* SICancelButton.h */,
+				03FEB1E91747BFC500B6339D /* SICancelButton.m */,
+				03FEB1E11747B50600B6339D /* SIActionSheetView.h */,
+				03FEB1E21747B50600B6339D /* SIActionSheetView.m */,
+			);
+			name = SIActionSheet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +218,10 @@
 				03FEB1CC1747AACE00B6339D /* Default-568h@2x.png in Resources */,
 				03FEB1D21747AACE00B6339D /* SIViewController_iPhone.xib in Resources */,
 				03FEB1D51747AACE00B6339D /* SIViewController_iPad.xib in Resources */,
+				03FEB1E01747AB4F00B6339D /* SIActionSheet.xib in Resources */,
+				03FEB1EF1747D4C800B6339D /* SIActionCell.xib in Resources */,
+				03FEB1F41747D93500B6339D /* studio-istanbul.png in Resources */,
+				03ED57061747E8010081BEBE /* grey_wash_wall.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +235,12 @@
 				03FEB1C21747AACE00B6339D /* main.m in Sources */,
 				03FEB1C61747AACE00B6339D /* SIAppDelegate.m in Sources */,
 				03FEB1CF1747AACE00B6339D /* SIViewController.m in Sources */,
+				03FEB1DF1747AB4F00B6339D /* SIActionSheet.m in Sources */,
+				03FEB1E31747B50600B6339D /* SIActionSheetView.m in Sources */,
+				03FEB1E61747BBC200B6339D /* SIActionSheetBackground.m in Sources */,
+				03FEB1EA1747BFC500B6339D /* SICancelButton.m in Sources */,
+				03FEB1ED1747D19E00B6339D /* SIActionElement.m in Sources */,
+				03FEB1F21747D4FF00B6339D /* SIActionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +371,7 @@
 				03FEB1DA1747AACE00B6339D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
