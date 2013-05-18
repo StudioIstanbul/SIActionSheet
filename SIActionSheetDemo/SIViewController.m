@@ -31,7 +31,13 @@
     NSArray* actions = [NSArray arrayWithObjects:[SIActionElement actionWithTitle:@"Action 1" image:[UIImage imageNamed:@"studio-istanbul"] andAction:^{NSLog(@"action 1");}], nil];
     SIActionSheet* actionSheet = [SIActionSheet actionSheetWithTitle:@"test sheet" andObjects:actions completition:^(int num){NSLog(@"complete with num %i", num);} cancel:^{NSLog(@"canceled");}];
     //[actionSheet showinView:self.view];
-    [actionSheet show];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        CGPoint arrow = CGPointMake([sender frame].origin.x + ([sender frame].size.width / 2), [sender frame].origin.y);
+        [actionSheet showWithCoordinates:arrow];
+    } else {
+        [actionSheet show];
+    }
+    
 }
 
 @end

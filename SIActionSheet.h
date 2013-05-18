@@ -15,4 +15,5 @@
 -(SIActionElement*)actionAtIndex:(NSInteger)pos;
 -(void)showinView:(UIView*)view;
 -(void)show;
+-(void)showWithCoordinates:(CGPoint)point;
 @end

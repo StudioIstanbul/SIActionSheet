@@ -21,12 +21,15 @@
 @property (nonatomic, copy) void (^cancelBlock)(void);
 @property (nonatomic, copy) void (^completeBlock)(int);
 @property (nonatomic, retain) UIView* parentview;
+@property (nonatomic, retain) UIPopoverController* popCtrl;
+@property (nonatomic, retain) UIView* blackout;
 -(IBAction)close:(id)sender;
 @end
 
 @implementation SIActionSheet
 @synthesize elements, tableview, titleLabel;
 @synthesize cancelBlock, completeBlock, parentview, cancelButton, scroll;
+@synthesize popCtrl, blackout;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -83,28 +86,54 @@
     if (!self.parentview) {
          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange) name:UIDeviceOrientationDidChangeNotification object:nil];
         CGRect myFrame = [view convertRect:view.frame fromView:nil];
-        self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);
+        if (!self.popCtrl) self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);
         [view addSubview:self.view];
         self.parentview = view;
         [self retain];
-        [UIView animateWithDuration:0.5 animations:^{self.view.frame = CGRectMake(0, 0, myFrame.size.width, myFrame.size.height);}];
+        double dur = 0.5;
+        if (self.popCtrl) dur = 0;
+        [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, 0, myFrame.size.width, myFrame.size.height);}];
     } else {
         NSLog(@"can't show twice!");
     }
 }
 
+-(void)showWithCoordinates:(CGPoint)point {
+    UIViewController* rootVC = (UIViewController*)[[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
+    self.blackout = [[[UIView alloc] initWithFrame:rootVC.view.bounds] autorelease];
+    blackout.backgroundColor = [UIColor blackColor];
+    blackout.alpha = 0;
+    [rootVC.view addSubview:blackout];
+    [rootVC.view bringSubviewToFront:blackout];
+    [UIView animateWithDuration:0.5 animations:^{blackout.alpha = 0.8;}];
+    UIViewController* basicView = [[UIViewController alloc] init];
+    basicView.modalInPopover = YES;
+    basicView.contentSizeForViewInPopover = CGSizeMake(320, 480);
+    basicView.view.frame = CGRectMake(0, 0, 320, 480);
+    popCtrl = [[UIPopoverController alloc] initWithContentViewController:basicView];
+    CGRect myFrame = CGRectMake(point.x, point.y, 1, 1);
+    [self showinView:basicView.view];
+    [popCtrl presentPopoverFromRect:myFrame inView:rootVC.view permittedArrowDirections:UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp animated:YES];
+}
+
 -(void)closeAnimated {
     CGRect myFrame = [parentview convertRect:parentview.frame fromView:nil];
-    [UIView animateWithDuration:0.5 animations:^{self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);} completion:^(BOOL finish) {self.parentview = nil; [self.view removeFromSuperview]; [self release];}];
+    double dur = 0.5;
+    if (!self.popCtrl) [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);} completion:^(BOOL finish) {self.parentview = nil; [self.view removeFromSuperview]; [self release];}]; else {
+        [UIView animateWithDuration:0.5 animations:^{self.blackout.alpha = 0;} completion:^(BOOL finished){[blackout removeFromSuperview]; self.blackout = nil;}];
+        [self.popCtrl dismissPopoverAnimated:YES];
+        self.popCtrl = nil;
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
 }
 
 -(void)show {
+    UIViewController* rootVC = (UIViewController*)[[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        id rootVC = [[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
         [self showinView:[rootVC view]];
     } else {
-        
+        [self showWithCoordinates:CGPointMake(100, 100)];
     }
 }
 
