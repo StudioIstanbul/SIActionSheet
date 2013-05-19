@@ -33,6 +33,7 @@
 @synthesize cancelBlock, completeBlock, parentview, cancelButton, scroll;
 @synthesize popCtrl, blackout;
 @synthesize contentSize;
+@synthesize canceled, followUpSheet;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +41,7 @@
     if (self) {
         // Custom initialization
         elements = [[NSMutableArray alloc] init];
+        canceled = NO;
     }
     return self;
 }
@@ -62,6 +64,7 @@
     if (cancelBlock) {
         cancelBlock();
     }
+    canceled = YES;
     [self closeAnimated];
 }
 
@@ -101,23 +104,34 @@
     return CGSizeMake(myFrame.size.width, height);
 }
 
--(void)showinView:(UIView *)view {
+-(void)showinView:(UIView *)view asFollowUp:(BOOL)followUp withFrame:(CGRect)myFrame {
     if (!self.parentview) {
         self.parentview = view;
-         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-        
-        CGRect myFrame = [view convertRect:view.frame fromView:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange) name:UIDeviceOrientationDidChangeNotification object:nil];
         CGRect parentFrame = myFrame;
-        myFrame.size = self.contentSize;
-        if (!self.popCtrl) self.view.frame = CGRectMake(0, parentFrame.size.height, myFrame.size.width, myFrame.size.height);
+        if (!followUp) myFrame.size = self.contentSize;
+        if (followUp) {
+            self.view.frame = CGRectMake(myFrame.size.width, myFrame.origin.y, myFrame.size.width, myFrame.size.height);
+        } else if (!self.popCtrl) self.view.frame = CGRectMake(0, parentFrame.size.height, myFrame.size.width, myFrame.size.height);
         [view addSubview:self.view];
         [self retain];
         double dur = 0.5;
-        if (self.popCtrl) dur = 0;
-        [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, parentFrame.size.height - myFrame.size.height, myFrame.size.width, myFrame.size.height);}];
+        if (self.popCtrl && followUp == NO) dur = 0;
+        if (!followUp) {
+            [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, parentFrame.size.height - myFrame.size.height, myFrame.size.width, myFrame.size.height);}];
+        } else {
+            [UIView animateWithDuration:dur animations:^{
+                self.view.frame = myFrame;
+            }];
+        }
+        
     } else {
         NSLog(@"can't show twice!");
     }
+}
+
+-(void)showinView:(UIView *)view {
+    [self showinView:view asFollowUp:NO withFrame:[view convertRect:view.frame fromView:nil]];
 }
 
 -(void)showWithCoordinates:(CGPoint)point {
@@ -141,11 +155,25 @@
 -(void)closeAnimated {
     CGRect myFrame = [parentview convertRect:parentview.frame fromView:nil];
     double dur = 0.5;
-    if (!self.popCtrl) [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);} completion:^(BOOL finish) {self.parentview = nil; [self.view removeFromSuperview]; [self release];}]; else {
-        [UIView animateWithDuration:0.5 animations:^{self.blackout.alpha = 0;} completion:^(BOOL finished){[blackout removeFromSuperview]; self.blackout = nil;}];
-        [self.popCtrl dismissPopoverAnimated:YES];
-        self.popCtrl = nil;
+    if (!self.followUpSheet) {
+        if (!self.popCtrl) [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);} completion:^(BOOL finish) {self.parentview = nil; [self.view removeFromSuperview]; [self release];}]; else {
+            [UIView animateWithDuration:0.5 animations:^{self.blackout.alpha = 0;} completion:^(BOOL finished){[blackout removeFromSuperview]; self.blackout = nil;}];
+            [self.popCtrl dismissPopoverAnimated:YES];
+            self.popCtrl = nil;
+        }
+    } else {
+        self.followUpSheet.popCtrl = self.popCtrl;
+        self.followUpSheet.blackout = self.blackout;
+        if (blackout) [blackout release];
+        if (popCtrl) [popCtrl release];
+        CGRect frame = self.view.frame;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.view.frame = CGRectMake(-(self.view.frame.size.width), self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+        }];
+        [self.followUpSheet showinView:self.parentview asFollowUp:YES withFrame:frame];
+        self.followUpSheet = nil;
     }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     
 }
@@ -160,7 +188,8 @@
 }
 
 -(void)showFromTabBarItem:(UITabBarItem *)item inTabBar:(UITabBar *)tabBar {
-    [self showWithCoordinates:[tabBar midpointForItem:item]];
+    CGRect showRect = [[UIApplication rootViewController].view convertRect:[tabBar midpointRectForItem:item] fromView:tabBar];
+    [self showWithCoordinates:showRect.origin];
 }
 
 -(void)orientChange {
@@ -177,7 +206,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"selected %i", indexPath.row);
     if (((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).action)     ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).action();
     if (completeBlock) self.completeBlock(indexPath.row);
     [self closeAnimated];

@@ -11,6 +11,8 @@
 
 @interface SIActionSheet : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (readonly) CGSize contentSize;
+@property (nonatomic, retain) SIActionSheet* followUpSheet;
+@property (readonly) BOOL canceled;
 
 +(SIActionSheet*)actionSheetWithTitle:(NSString*)title andObjects:(NSArray*)objects completition:(void (^)(int numberPressed))completeBlock cancel:(void (^)(void))cancelBlock;
 -(SIActionElement*)actionAtIndex:(NSInteger)pos;
