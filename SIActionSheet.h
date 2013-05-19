@@ -17,4 +17,5 @@
 -(void)showinView:(UIView*)view;
 -(void)show;
 -(void)showWithCoordinates:(CGPoint)point;
+-(void)showFromTabBarItem:(UITabBarItem*)item inTabBar:(UITabBar*)tabBar;
 @end

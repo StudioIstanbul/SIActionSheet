@@ -8,6 +8,8 @@
 
 #import "SIActionSheet.h"
 #import "SIActionCell.h"
+#import "UITabBar+frame.h"
+#import "UIApplication+rootViewController.h"
 
 @interface SIActionSheet () {
     
@@ -119,7 +121,7 @@
 }
 
 -(void)showWithCoordinates:(CGPoint)point {
-    UIViewController* rootVC = (UIViewController*)[[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
+    UIViewController* rootVC = [UIApplication rootViewController];
     self.blackout = [[[UIView alloc] initWithFrame:rootVC.view.bounds] autorelease];
     blackout.backgroundColor = [UIColor blackColor];
     blackout.alpha = 0;
@@ -149,12 +151,16 @@
 }
 
 -(void)show {
-    UIViewController* rootVC = (UIViewController*)[[[[[UIApplication sharedApplication] keyWindow] subviews] objectAtIndex:0] nextResponder];
+    UIViewController* rootVC = [UIApplication rootViewController];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self showinView:[rootVC view]];
     } else {
         [self showWithCoordinates:CGPointMake(100, 100)];
     }
+}
+
+-(void)showFromTabBarItem:(UITabBarItem *)item inTabBar:(UITabBar *)tabBar {
+    [self showWithCoordinates:[tabBar midpointForItem:item]];
 }
 
 -(void)orientChange {
