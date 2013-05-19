@@ -156,7 +156,8 @@
 -(void)closeAnimated {
     CGRect myFrame = [parentview convertRect:parentview.frame fromView:nil];
     double dur = 0.5;
-    if (!self.followUpSheet) {
+    if (!self.followUpSheet || canceled) {
+        self.followUpSheet = nil;
         if (!self.popCtrl) [UIView animateWithDuration:dur animations:^{self.view.frame = CGRectMake(0, myFrame.size.height, myFrame.size.width, myFrame.size.height);} completion:^(BOOL finish) {self.parentview = nil; [self.view removeFromSuperview]; [self release];}]; else {
             [UIView animateWithDuration:0.5 animations:^{self.blackout.alpha = 0;} completion:^(BOOL finished){[blackout removeFromSuperview]; self.blackout = nil;}];
             [self.popCtrl dismissPopoverAnimated:YES];
