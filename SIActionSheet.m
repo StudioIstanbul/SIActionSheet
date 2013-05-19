@@ -11,6 +11,7 @@
 #import "UITabBar+frame.h"
 #import "UIApplication+rootViewController.h"
 
+
 @interface SIActionSheet () {
     
 }
@@ -223,6 +224,8 @@
 -(void)tableView:(UITableView *)tableView willDisplayCell:(SIActionCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).title;
     cell.imageView.image = ((SIActionElement*)[self.elements objectAtIndex:indexPath.row]).image;
+    cell.imageView.frame = cell.defaultImageViewRect;
+    cell.textLabel.frame = cell.defaultTextLabelRect;
     if (cell.imageView.image == nil) {
         cell.textLabel.frame = CGRectMake(cell.imageView.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width + cell.textLabel.frame.origin.x - cell.imageView.frame.origin.x, cell.textLabel.frame.size.height);
     }
